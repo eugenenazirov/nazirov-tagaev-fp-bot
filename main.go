@@ -40,8 +40,6 @@ func main() {
 	}
 
 	upgradeBot.Bot.Handle("/start", upgradeBot.StartHandler)
-	// upgradeBot.Bot.Handle("/game", upgradeBot.GameHandler)
-	// upgradeBot.Bot.Handle("/try", upgradeBot.TryHandler)
 
 	upgradeBot.Bot.Start()
 }
