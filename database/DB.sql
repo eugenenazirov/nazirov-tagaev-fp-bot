@@ -3,7 +3,7 @@ create DATABASE mailings;
 use mailings;
 
 create table users (
-    id          INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id          INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     name        varchar(255),
     telegram_id INT,
     first_name  varchar(255),
@@ -15,16 +15,16 @@ create table users (
 );
 
 create table messages (
-    id           INT PRIMARY KEY AUTO_INCREMENT,
+    id           INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     msg_text     TEXT,
     created_at   datetime DEFAULT CURRENT_TIMESTAMP 
-)
+);
 
 -- Добавил m2m таблицу
 create table users_messages (
-    user_id int UNSIGNED,
-    message_id int UNSIGNED,
-    PRIMARY KEY (user_id, message_id),
-    FOREIGN KEY (user_id) REFERENCES ON users(id),
-    FOREIGN KEY (message_id) REFERENCES ON messages(id)
-)
+    users_id     INT UNSIGNED,
+    messages_id  INT UNSIGNED,
+    PRIMARY KEY (users_id, messages_id),
+    FOREIGN KEY (users_id) REFERENCES users(id),
+    FOREIGN KEY (messages_id) REFERENCES messages(id)
+);
