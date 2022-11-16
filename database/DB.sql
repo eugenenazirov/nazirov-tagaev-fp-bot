@@ -17,7 +17,6 @@ create table users (
 create table messages (
     id           INT PRIMARY KEY AUTO_INCREMENT,
     msg_text     TEXT,
-    user_chat_id INTEGER FOREIGN KEY REFERENCES ON users(chat_id),
     created_at   datetime DEFAULT CURRENT_TIMESTAMP 
 )
 
