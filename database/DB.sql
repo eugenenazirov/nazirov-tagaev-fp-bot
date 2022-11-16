@@ -1,5 +1,7 @@
-create DATABASE fp_DB;
-use fp_DB;
+-- Изменил название БД в соответствии с нашим соглашением о доступе к БД
+create DATABASE mailings;
+use mailings;
+
 create table users (
     id          INTEGER PRIMARY KEY AUTO_INCREMENT,
     name        varchar(255),
@@ -17,4 +19,13 @@ create table messages (
     msg_text     TEXT,
     user_chat_id INTEGER FOREIGN KEY REFERENCES ON users(chat_id),
     created_at   datetime DEFAULT CURRENT_TIMESTAMP 
+)
+
+-- Добавил m2m таблицу
+create table users_messages (
+    user_id int UNSIGNED,
+    message_id int UNSIGNED,
+    PRIMARY KEY (user_id, message_id),
+    FOREIGN KEY (user_id) REFERENCES ON users(id),
+    FOREIGN KEY (message_id) REFERENCES ON messages(id)
 )
