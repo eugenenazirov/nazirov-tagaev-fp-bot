@@ -8,12 +8,13 @@ import (
 	"gopkg.in/telebot.v3"
 )
 
-type UpgradeBot struct {
-	Bot   *telebot.Bot
-	Users *models.UserModel
+type MailingBot struct {
+	Bot      *telebot.Bot
+	Users    *models.UserModel
+	Messages *models.MessageModel
 }
 
-func (bot *UpgradeBot) StartHandler(ctx telebot.Context) error {
+func (bot *MailingBot) StartHandler(ctx telebot.Context) error {
 	newUser := models.User{
 		Name:       ctx.Sender().Username,
 		TelegramId: ctx.Chat().ID,
@@ -25,7 +26,7 @@ func (bot *UpgradeBot) StartHandler(ctx telebot.Context) error {
 	existUser, err := bot.Users.FindOne(ctx.Chat().ID)
 
 	if err != nil {
-		log.Printf("Ошибка получения пользователя %v", err)
+		log.Printf("Пользователь не получен %v, попробуем его создать", err)
 	}
 
 	if existUser == nil {

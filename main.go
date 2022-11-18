@@ -34,7 +34,7 @@ func main() {
 		log.Fatalf("Ошибка подключения к БД %v", err)
 	}
 
-	upgradeBot := bot.UpgradeBot{
+	upgradeBot := bot.MailingBot{
 		Bot:   bot.InitBot(cfg.BotToken),
 		Users: &models.UserModel{Db: db},
 	}
