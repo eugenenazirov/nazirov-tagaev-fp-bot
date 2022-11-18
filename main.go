@@ -1,13 +1,13 @@
 package main
 
 import (
-	"botfromlecture/cmd/bot"
-	"botfromlecture/internal/models"
 	"flag"
 	"log"
+	"nazirov-tagaev-fp-bot/cmd/bot"
+	"nazirov-tagaev-fp-bot/internal/models"
 
 	"github.com/BurntSushi/toml"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -28,7 +28,7 @@ func main() {
 		log.Fatalf("Ошибка декодирования файла конфигов %v", err)
 	}
 
-	db, err := gorm.Open(sqlite.Open(cfg.Dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(cfg.Dsn), &gorm.Config{})
 
 	if err != nil {
 		log.Fatalf("Ошибка подключения к БД %v", err)
