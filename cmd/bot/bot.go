@@ -1,8 +1,8 @@
 package bot
 
 import (
-	"botfromlecture/internal/models"
 	"log"
+	"nazirov-tagaev-fp-bot/internal/models"
 	"time"
 
 	"gopkg.in/telebot.v3"

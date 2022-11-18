@@ -1,10 +1,10 @@
 package main
 
 import (
-	"botfromlecture/cmd/bot"
-	"botfromlecture/internal/models"
 	"flag"
 	"log"
+	"nazirov-tagaev-fp-bot/cmd/bot"
+	"nazirov-tagaev-fp-bot/internal/models"
 
 	"github.com/BurntSushi/toml"
 	"gorm.io/driver/mysql"
