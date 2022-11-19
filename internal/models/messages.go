@@ -18,7 +18,7 @@ func (m *MessageModel) Create(message Message) error {
 	return result.Error
 }
 
-func (m *MessageModel) FindOne(msgId int64) (*Message, error) {
+func (m *MessageModel) FindOne(msgId uint64) (*Message, error) {
 	existMessage := Message{}
 
 	result := m.Db.First(&existMessage, msgId)

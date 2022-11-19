@@ -14,6 +14,25 @@ type MailingBot struct {
 	Messages *models.MessageModel
 }
 
+func (bot *MailingBot) SendMailing(msgId uint64) {
+	users, err := bot.Users.FindAll()
+	if err != nil {
+		log.Printf("Ошибка получения пользователей %v", err)
+	}
+
+	msgText, err := bot.Messages.FindOne(msgId)
+	if err != nil {
+		log.Printf("Ошибка получения сообщения %v", err)
+	}
+
+	for _, user := range users {
+		_, err := bot.Bot.Send(user, msgText.MsgText)
+		if err != nil {
+			log.Printf("Ошибка получения пользователей %v", err)
+		}
+	}
+}
+
 func (bot *MailingBot) StartHandler(ctx telebot.Context) error {
 	newUser := models.User{
 		Name:       ctx.Sender().Username,
@@ -37,7 +56,7 @@ func (bot *MailingBot) StartHandler(ctx telebot.Context) error {
 		}
 	}
 
-	return ctx.Send("Привет, " + ctx.Sender().FirstName + " теперь вы подписаны на рассылку.")
+	return ctx.Send("Привет, " + ctx.Sender().FirstName + ", теперь вы подписаны на рассылку.")
 }
 
 func InitBot(token string) *telebot.Bot {
