@@ -8,12 +8,32 @@ import (
 	"gopkg.in/telebot.v3"
 )
 
-type UpgradeBot struct {
-	Bot   *telebot.Bot
-	Users *models.UserModel
+type MailingBot struct {
+	Bot      *telebot.Bot
+	Users    *models.UserModel
+	Messages *models.MessageModel
 }
 
-func (bot *UpgradeBot) StartHandler(ctx telebot.Context) error {
+func (bot *MailingBot) SendMailing(msgId uint64) {
+	users, err := bot.Users.FindAll()
+	if err != nil {
+		log.Printf("Ошибка получения пользователей %v", err)
+	}
+
+	msgText, err := bot.Messages.FindOne(msgId)
+	if err != nil {
+		log.Printf("Ошибка получения сообщения %v", err)
+	}
+
+	for _, user := range users {
+		_, err := bot.Bot.Send(user, msgText.MsgText)
+		if err != nil {
+			log.Printf("Ошибка получения пользователей %v", err)
+		}
+	}
+}
+
+func (bot *MailingBot) StartHandler(ctx telebot.Context) error {
 	newUser := models.User{
 		Name:       ctx.Sender().Username,
 		TelegramId: ctx.Chat().ID,
@@ -25,7 +45,7 @@ func (bot *UpgradeBot) StartHandler(ctx telebot.Context) error {
 	existUser, err := bot.Users.FindOne(ctx.Chat().ID)
 
 	if err != nil {
-		log.Printf("Ошибка получения пользователя %v", err)
+		log.Printf("Пользователь не получен %v, попробуем его создать", err)
 	}
 
 	if existUser == nil {
@@ -36,7 +56,7 @@ func (bot *UpgradeBot) StartHandler(ctx telebot.Context) error {
 		}
 	}
 
-	return ctx.Send("Привет, " + ctx.Sender().FirstName + " теперь вы подписаны на рассылку.")
+	return ctx.Send("Привет, " + ctx.Sender().FirstName + ", теперь вы подписаны на рассылку.")
 }
 
 func InitBot(token string) *telebot.Bot {

@@ -2,13 +2,13 @@ package main
 
 import (
 	"flag"
-	"log"
-	"nazirov-tagaev-fp-bot/cmd/bot"
-	"nazirov-tagaev-fp-bot/internal/models"
-
 	"github.com/BurntSushi/toml"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"log"
+	"nazirov-tagaev-fp-bot/cmd/bot"
+	"nazirov-tagaev-fp-bot/internal/models"
+	"nazirov-tagaev-fp-bot/internal/server"
 )
 
 type Config struct {
@@ -34,12 +34,15 @@ func main() {
 		log.Fatalf("Ошибка подключения к БД %v", err)
 	}
 
-	upgradeBot := bot.UpgradeBot{
-		Bot:   bot.InitBot(cfg.BotToken),
-		Users: &models.UserModel{Db: db},
+	mailingBot := bot.MailingBot{
+		Bot:      bot.InitBot(cfg.BotToken),
+		Users:    &models.UserModel{Db: db},
+		Messages: &models.MessageModel{Db: db},
 	}
 
-	upgradeBot.Bot.Handle("/start", upgradeBot.StartHandler)
+	mailingBot.Bot.Handle("/start", mailingBot.StartHandler)
 
-	upgradeBot.Bot.Start()
+	go server.InitServer(&mailingBot)
+
+	mailingBot.Bot.Start()
 }
