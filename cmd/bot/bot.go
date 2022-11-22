@@ -8,12 +8,16 @@ import (
 	"gopkg.in/telebot.v3"
 )
 
+// Link initialized Telebot with db models
 type MailingBot struct {
 	Bot      *telebot.Bot
 	Users    *models.UserModel
 	Messages *models.MessageModel
 }
 
+// SendMailing method sends the message to all subscribed users
+// The bot finds message by ID,
+// that was sent in request body from admin panel
 func (bot *MailingBot) SendMailing(msgId uint64) {
 	users, err := bot.Users.FindAll()
 	if err != nil {
@@ -33,6 +37,8 @@ func (bot *MailingBot) SendMailing(msgId uint64) {
 	}
 }
 
+// StartHandler method registers new user
+// and subscribes him on the mailing
 func (bot *MailingBot) StartHandler(ctx telebot.Context) error {
 	newUser := models.User{
 		Name:       ctx.Sender().Username,
@@ -59,6 +65,8 @@ func (bot *MailingBot) StartHandler(ctx telebot.Context) error {
 	return ctx.Send("Привет, " + ctx.Sender().FirstName + ", теперь вы подписаны на рассылку.")
 }
 
+// InitBot initializes bot with token,
+// parsed from toml config
 func InitBot(token string) *telebot.Bot {
 	pref := telebot.Settings{
 		Token:  token,

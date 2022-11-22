@@ -8,14 +8,21 @@ import (
 	"net/http"
 )
 
+// msgReq imitates a request body from admin panel
 type msgReq struct {
 	MsgId uint64 `json:"msg_id"`
 }
 
+// Bot struct links existing Bot instance with sendMessageHandler method
 type Bot struct {
 	BotInstance *bot.MailingBot
 }
 
+// sendMessageHandler parses request body from admin panel
+// takes the message id from it and calls
+// the bot.SendMailing() method with message id
+// as the parameter
+// return void
 func (b *Bot) sendMessageHandler(w http.ResponseWriter, r *http.Request) {
 	var Msg msgReq
 
@@ -37,6 +44,9 @@ func (b *Bot) sendMessageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// InitServer initializes the web-server instance using ServeMux
+// takes the bot instance link as an argument
+// return void
 func InitServer(bot *bot.MailingBot) {
 	existBot := Bot{bot}
 
