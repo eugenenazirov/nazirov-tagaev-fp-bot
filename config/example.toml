@@ -1,3 +1,3 @@
 Env="envname"
 BotToken="token-from-bot-father"
-Dsn="db-connection"
+Dsn="user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True" # see https://gorm.io/docs/connecting_to_the_database.html for connect gorm for your DB
