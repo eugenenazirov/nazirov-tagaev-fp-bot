@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-// User struct declares DB table 'user' in code
+// User struct declares DB table "users" in code
 type User struct {
 	gorm.Model
 	Name       string `json:"name"`
@@ -26,7 +26,7 @@ type UserModel struct {
 }
 
 // Create creates new user
-// It is similar to 'INSERT' query
+// It is similar to "INSERT" query
 func (m *UserModel) Create(user User) error {
 
 	result := m.Db.Create(&user)
@@ -36,7 +36,7 @@ func (m *UserModel) Create(user User) error {
 
 // FindOne method finds user by telegram id
 // returns link for User struct (the found user)
-// It is similar to 'SELECT ... WHERE telegram_id = ... LIMIT 1'
+// It is similar to "SELECT * FROM users WHERE telegram_id = ... LIMIT 1"
 func (m *UserModel) FindOne(telegramId int64) (*User, error) {
 	existUser := User{}
 
@@ -51,7 +51,7 @@ func (m *UserModel) FindOne(telegramId int64) (*User, error) {
 
 // FindAll finds all subscribed users
 // returns slice of User structs
-// It is similar to 'SELECT * FROM users'
+// It is similar to "SELECT * FROM users"
 func (m *UserModel) FindAll() ([]User, error) {
 	var existUsers []User
 
